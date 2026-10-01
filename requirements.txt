@@ -4,4 +4,4 @@ Flask-Login
 cryptography
 Werkzeug
 python-dotenv
-gnicorn
+gunicorn==23.0.0
