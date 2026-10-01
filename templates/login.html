@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureVault | Login</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #102d52 0%,
+                    #06152d 35%,
+                    #020812 75%
+                );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+        }
+
+
+        /* LOGIN CARD */
+
+        .login-card {
+            width: 420px;
+
+            padding: 42px;
+
+            background: rgba(7, 20, 43, 0.96);
+
+            border: 1px solid #1d4168;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.55),
+                0 0 35px rgba(0, 174, 255, 0.08);
+        }
+
+
+        /* LOCK ICON */
+
+        .logo {
+            width: 62px;
+            height: 62px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #08b9ff,
+                    #315cff
+                );
+
+            font-size: 29px;
+
+            box-shadow:
+                0 8px 25px rgba(8, 185, 255, 0.25);
+        }
+
+
+        h1 {
+            text-align: center;
+
+            font-size: 28px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .subtitle {
+            text-align: center;
+
+            color: #8da2bf;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* FLASH MESSAGE */
+
+        .message {
+            padding: 11px 13px;
+
+            margin-bottom: 18px;
+
+            border-radius: 8px;
+
+            background: rgba(239, 68, 68, 0.12);
+
+            border: 1px solid rgba(239, 68, 68, 0.25);
+
+            color: #ff9999;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        label {
+            display: block;
+
+            color: #dce7f5;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+
+        input {
+            width: 100%;
+
+            height: 47px;
+
+            padding: 0 14px;
+
+            background: #0b1c36;
+
+            border: 1px solid #284666;
+
+            border-radius: 9px;
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        input::placeholder {
+            color: #617694;
+        }
+
+
+        input:focus {
+            border-color: #12bdf5;
+
+            box-shadow:
+                0 0 0 3px rgba(18, 189, 245, 0.10);
+        }
+
+
+        /* LOGIN BUTTON */
+
+        .login-btn {
+            width: 100%;
+
+            height: 48px;
+
+            margin-top: 4px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #08b9ff,
+                    #315cff
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 25px rgba(49, 92, 255, 0.30);
+        }
+
+
+        /* REGISTER */
+
+        .register {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #7185a3;
+
+            font-size: 13px;
+        }
+
+
+        .register a {
+            color: #28c7ff;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* SECURITY TEXT */
+
+        .security {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #526987;
+
+            font-size: 11px;
+        }
+
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 20px;
+            }
+
+            .login-card {
+                width: 100%;
+
+                padding: 32px 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-card">
+
+
+        <div class="logo">
+            🔐
+        </div>
+
+
+        <h1>
+            Secure File Sharing
+        </h1>
+
+
+        <p class="subtitle">
+            Login to your secure account
+        </p>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- LOGIN FORM -->
+
+        <form method="POST">
+
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login Securely →
+            </button>
+
+
+        </form>
+
+
+        <div class="register">
+
+            Don't have an account?
+
+            <a href="{{ url_for('register') }}">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <div class="security">
+            🔒 Your files are protected with secure encryption
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

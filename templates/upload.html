@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureVault | Upload File</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #102d52 0%,
+                    #06152d 35%,
+                    #020812 75%
+                );
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 500px;
+            padding: 40px;
+
+            background: #07142d;
+            border: 1px solid #1c385a;
+            border-radius: 18px;
+
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: linear-gradient(
+                135deg,
+                #08b9ff,
+                #315cff
+            );
+
+            font-size: 28px;
+
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #8196b4;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .file-box {
+            border: 1px dashed #315477;
+            border-radius: 12px;
+
+            padding: 35px 20px;
+
+            text-align: center;
+
+            background: #091a33;
+
+            margin-bottom: 20px;
+        }
+
+        .file-box input {
+            width: 100%;
+            color: #a9bbd2;
+            font-size: 13px;
+        }
+
+        .security {
+            color: #28c7ff;
+            font-size: 12px;
+
+            background: rgba(40,199,255,0.07);
+
+            border: 1px solid rgba(40,199,255,0.15);
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 22px;
+        }
+
+        button {
+            width: 100%;
+            height: 48px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: linear-gradient(
+                90deg,
+                #08b9ff,
+                #315cff
+            );
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            box-shadow: 0 10px 25px rgba(49,92,255,0.25);
+            transform: translateY(-1px);
+        }
+
+        .back {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #7186a4;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .back:hover {
+            color: #28c7ff;
+        }
+
+        .message {
+            padding: 10px;
+
+            margin-bottom: 18px;
+
+            border-radius: 8px;
+
+            background: rgba(239,68,68,0.10);
+
+            color: #ff9b9b;
+
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="icon">
+        📤
+    </div>
+
+    <h1>Upload File</h1>
+
+    <p class="subtitle">
+        Upload your file securely to SecureVault.
+    </p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <div class="file-box">
+
+            <input
+                type="file"
+                name="file"
+                required
+            >
+
+        </div>
+
+        <div class="security">
+            🔒 Your file will be encrypted before storage.
+        </div>
+
+        <button type="submit">
+            Encrypt & Upload
+        </button>
+
+    </form>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="back"
+    >
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

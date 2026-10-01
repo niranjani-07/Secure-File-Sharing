@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureVault | Share File</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #102d52 0%,
+                    #06152d 35%,
+                    #020812 75%
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+        .container {
+            width: 520px;
+
+            background: #07142d;
+
+            border: 1px solid #1c385a;
+
+            border-radius: 18px;
+
+            padding: 40px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.50);
+        }
+
+        /* ICON */
+
+        .icon {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #08b9ff,
+                    #315cff
+                );
+
+            font-size: 28px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 10px 25px rgba(8, 185, 255, 0.18);
+        }
+
+        /* HEADING */
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #8196b4;
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+        /* FLASH MESSAGE */
+
+        .message {
+            padding: 11px 13px;
+
+            margin-bottom: 18px;
+
+            border-radius: 8px;
+
+            background: rgba(40, 199, 255, 0.08);
+
+            border: 1px solid rgba(40, 199, 255, 0.18);
+
+            color: #52d5ff;
+
+            font-size: 13px;
+        }
+
+        /* FORM */
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            color: #dce7f7;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        select,
+        input {
+            width: 100%;
+
+            height: 46px;
+
+            padding: 0 14px;
+
+            background: #0b1b36;
+
+            border: 1px solid #263e62;
+
+            border-radius: 9px;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #13bff5;
+
+            box-shadow:
+                0 0 0 3px rgba(19, 191, 245, 0.10);
+        }
+
+        select option {
+            background: #07142d;
+
+            color: white;
+        }
+
+        input::placeholder {
+            color: #627693;
+        }
+
+        /* PERMISSION */
+
+        .permission-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 8px;
+
+            color: #687f9e;
+
+            font-size: 11px;
+        }
+
+        /* BUTTON */
+
+        .share-btn {
+            width: 100%;
+
+            height: 48px;
+
+            margin-top: 5px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #08b9ff,
+                    #315cff
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 25px rgba(49, 92, 255, 0.28);
+        }
+
+        /* BACK */
+
+        .back {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #7186a4;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .back:hover {
+            color: #28c7ff;
+        }
+
+        /* SECURITY NOTE */
+
+        .security {
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #526987;
+
+            font-size: 11px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                width: 100%;
+
+                padding: 30px 25px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ICON -->
+
+    <div class="icon">
+        🔗
+    </div>
+
+    <!-- TITLE -->
+
+    <h1>
+        Share File
+    </h1>
+
+    <p class="subtitle">
+        Securely share your encrypted file with another user.
+    </p>
+
+
+    <!-- FLASH MESSAGE -->
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="message">
+                    ✓ {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- FORM -->
+
+    <form method="POST">
+
+        <!-- FILE -->
+
+        <div class="field">
+
+            <label for="file_id">
+                Select File
+            </label>
+
+            <select
+                id="file_id"
+                name="file_id"
+                required
+            >
+
+                <option value="">
+                    -- Select a file --
+                </option>
+
+                {% for file in files %}
+
+                    <option value="{{ file.id }}">
+                        {{ file.filename }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- USERNAME -->
+
+        <div class="field">
+
+            <label for="username">
+                Share With Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter registered username"
+                required
+            >
+
+        </div>
+
+
+        <!-- PERMISSION -->
+
+        <div class="field">
+
+            <label for="permission">
+                Permission
+            </label>
+
+            <select
+                id="permission"
+                name="permission"
+                required
+            >
+
+                <option value="read">
+                    Read / Download
+                </option>
+
+            </select>
+
+            <div class="permission-info">
+                🔒 Recipient can securely download the file.
+            </div>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            type="submit"
+            class="share-btn"
+        >
+            🔗 Share Securely
+        </button>
+
+    </form>
+
+
+    <!-- BACK -->
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="back"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+    <!-- SECURITY -->
+
+    <div class="security">
+        🔐 Encrypted files remain protected during storage.
+    </div>
+
+</div>
+
+</body>
+
+</html>

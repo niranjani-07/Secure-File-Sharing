@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureVault | Shared With Me</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #102d52 0%,
+                    #06152d 35%,
+                    #020812 75%
+                );
+
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 55px;
+
+            background: rgba(7, 20, 43, 0.96);
+
+            border-bottom: 1px solid #1c385a;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #08b9ff,
+                    #315cff
+                );
+
+            font-size: 20px;
+        }
+
+        .brand-name span {
+            color: #28c7ff;
+        }
+
+        .logout {
+            padding: 9px 18px;
+
+            border-radius: 7px;
+
+            border: 1px solid rgba(239, 68, 68, 0.30);
+
+            background: rgba(239, 68, 68, 0.10);
+
+            color: #ff9b9b;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .logout:hover {
+            background: rgba(239, 68, 68, 0.18);
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1100px;
+
+            margin: 45px auto;
+
+            padding: 0 25px;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 31px;
+
+            margin-bottom: 8px;
+        }
+
+        .heading h1 span {
+            color: #28c7ff;
+        }
+
+        .heading p {
+            color: #8196b4;
+
+            font-size: 14px;
+        }
+
+        /* FILE CARD */
+
+        .files-card {
+            background: rgba(7, 20, 43, 0.95);
+
+            border: 1px solid #1c385a;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.30);
+        }
+
+        .files-header {
+            min-height: 75px;
+
+            padding: 0 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid #1c385a;
+        }
+
+        .files-title {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .folder-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(8, 185, 255, 0.10);
+
+            border: 1px solid rgba(8, 185, 255, 0.15);
+
+            font-size: 20px;
+        }
+
+        .files-title h2 {
+            font-size: 18px;
+        }
+
+        .secure-label {
+            color: #28c7ff;
+
+            font-size: 11px;
+
+            padding: 6px 10px;
+
+            border-radius: 6px;
+
+            background: rgba(40, 199, 255, 0.08);
+
+            border: 1px solid rgba(40, 199, 255, 0.15);
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 16px 20px;
+
+            text-align: left;
+
+            color: #7186a4;
+
+            background: #091a33;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        td {
+            padding: 18px 20px;
+
+            border-top: 1px solid #172e4d;
+
+            color: #ccd8e7;
+
+            font-size: 13px;
+        }
+
+        tr:hover td {
+            background: rgba(14, 42, 75, 0.35);
+        }
+
+        .file-name {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-weight: 600;
+
+            color: #e4edf8;
+        }
+
+        .file-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background:
+                rgba(8, 185, 255, 0.10);
+
+            font-size: 16px;
+        }
+
+        .owner {
+            color: #9db0c9;
+        }
+
+        .permission {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 6px;
+
+            background: rgba(40, 199, 255, 0.08);
+
+            border: 1px solid rgba(40, 199, 255, 0.15);
+
+            color: #28c7ff;
+
+            font-size: 11px;
+
+            text-transform: capitalize;
+        }
+
+        .download {
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            border-radius: 7px;
+
+            background: rgba(8, 185, 255, 0.10);
+
+            border: 1px solid rgba(8, 185, 255, 0.20);
+
+            color: #28c7ff;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .download:hover {
+            background: rgba(8, 185, 255, 0.18);
+
+            border-color: #28c7ff;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            padding: 75px 20px;
+
+            text-align: center;
+
+            color: #687e9d;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+
+            margin-bottom: 15px;
+
+            opacity: 0.75;
+        }
+
+        .empty h3 {
+            color: #b0bfd1;
+
+            font-size: 17px;
+
+            margin-bottom: 7px;
+        }
+
+        .empty p {
+            font-size: 12px;
+        }
+
+        /* BACK */
+
+        .back {
+            display: inline-block;
+
+            margin-top: 22px;
+
+            color: #7186a4;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .back:hover {
+            color: #28c7ff;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+            .files-header {
+                padding: 15px 18px;
+            }
+
+            th,
+            td {
+                padding: 13px 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🔐
+            </div>
+
+            <div class="brand-name">
+                Secure<span>Vault</span>
+            </div>
+
+        </div>
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <section class="heading">
+
+            <h1>
+                Shared <span>With Me</span> 📁
+            </h1>
+
+            <p>
+                Files that other users have securely shared with you.
+            </p>
+
+        </section>
+
+
+        <!-- FILES -->
+
+        <section class="files-card">
+
+            <div class="files-header">
+
+                <div class="files-title">
+
+                    <div class="folder-icon">
+                        📁
+                    </div>
+
+                    <h2>
+                        Shared Files
+                    </h2>
+
+                </div>
+
+                <span class="secure-label">
+                    🔒 Secure Access
+                </span>
+
+            </div>
+
+
+            {% if shared_files %}
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                File Name
+                            </th>
+
+                            <th>
+                                Owner
+                            </th>
+
+                            <th>
+                                Permission
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for share in shared_files %}
+
+                        <tr>
+
+                            <td>
+
+                                <div class="file-name">
+
+                                    <div class="file-icon">
+                                        🔐
+                                    </div>
+
+                                    {{ share.file.filename }}
+
+                                </div>
+
+                            </td>
+
+
+                            <td class="owner">
+
+                                {{ share.file.owner.username }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="permission">
+
+                                    {{ share.permission }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <a
+                                    href="{{ url_for('download', file_id=share.file.id) }}"
+                                    class="download"
+                                >
+                                    Download
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📂
+                </div>
+
+                <h3>
+                    No shared files
+                </h3>
+
+                <p>
+                    Files shared with you will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+
+</html>

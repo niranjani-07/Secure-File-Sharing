@@ -1,0 +1,7 @@
+.env
+encryption.key
+secure_files.db
+uploads/
+__pycache__/
+*.pyc
+venv/

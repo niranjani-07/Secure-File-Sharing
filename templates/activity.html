@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureVault | Activity Log</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #102d52 0%,
+                    #06152d 35%,
+                    #020812 75%
+                );
+
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 55px;
+
+            background: rgba(7, 20, 43, 0.96);
+
+            border-bottom: 1px solid #1c385a;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #08b9ff,
+                    #315cff
+                );
+
+            font-size: 20px;
+        }
+
+        .brand-name span {
+            color: #28c7ff;
+        }
+
+        .back {
+            padding: 9px 18px;
+
+            border-radius: 7px;
+
+            border: 1px solid #285078;
+
+            background: #0b1b36;
+
+            color: #9edfff;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+        .back:hover {
+            border-color: #28c7ff;
+            color: #28c7ff;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1150px;
+
+            margin: 45px auto;
+
+            padding: 0 25px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+
+            margin-bottom: 7px;
+        }
+
+        .heading p {
+            color: #8196b4;
+
+            font-size: 14px;
+        }
+
+        /* LOG CARD */
+
+        .log-card {
+            background: rgba(7, 20, 43, 0.95);
+
+            border: 1px solid #1c385a;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+        }
+
+        .log-header {
+            min-height: 68px;
+
+            padding: 0 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid #1c385a;
+        }
+
+        .log-header h2 {
+            font-size: 18px;
+        }
+
+        .secure-badge {
+            color: #28c7ff;
+
+            font-size: 12px;
+
+            padding: 6px 10px;
+
+            border-radius: 6px;
+
+            background:
+                rgba(40, 199, 255, 0.08);
+
+            border: 1px solid
+                rgba(40, 199, 255, 0.15);
+        }
+
+        /* TABLE */
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 15px 20px;
+
+            text-align: left;
+
+            color: #7186a4;
+
+            background: #091a33;
+
+            font-size: 12px;
+        }
+
+        td {
+            padding: 16px 20px;
+
+            border-top: 1px solid #172e4d;
+
+            color: #ccd8e7;
+
+            font-size: 13px;
+        }
+
+        tr:hover td {
+            background: rgba(
+                40,
+                199,
+                255,
+                0.025
+            );
+        }
+
+        /* ACTION BADGES */
+
+        .action {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 6px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+        }
+
+        .upload {
+            color: #65d8ff;
+
+            background:
+                rgba(8, 185, 255, 0.10);
+        }
+
+        .download {
+            color: #79a9ff;
+
+            background:
+                rgba(49, 92, 255, 0.12);
+        }
+
+        .share {
+            color: #8ee6b0;
+
+            background:
+                rgba(34, 197, 94, 0.10);
+        }
+
+        .delete {
+            color: #ff9999;
+
+            background:
+                rgba(239, 68, 68, 0.10);
+        }
+
+        .login {
+            color: #d2a7ff;
+
+            background:
+                rgba(168, 85, 247, 0.10);
+        }
+
+        .logout {
+            color: #ffbd7a;
+
+            background:
+                rgba(249, 115, 22, 0.10);
+        }
+
+        /* EMPTY */
+
+        .empty {
+            padding: 70px 20px;
+
+            text-align: center;
+
+            color: #687e9d;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+
+            margin-bottom: 12px;
+        }
+
+        .empty h3 {
+            color: #b0bfd1;
+
+            font-size: 16px;
+
+            margin-bottom: 7px;
+        }
+
+        .empty p {
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .log-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 750px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🔐
+            </div>
+
+            <div class="brand-name">
+                Secure<span>Vault</span>
+            </div>
+
+        </div>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back"
+        >
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <section class="heading">
+
+            <h1>
+                Activity Log
+            </h1>
+
+            <p>
+                Monitor your SecureVault file activities and account actions.
+            </p>
+
+        </section>
+
+
+        <section class="log-card">
+
+            <div class="log-header">
+
+                <h2>
+                    🔐 Security Activity
+                </h2>
+
+                <span class="secure-badge">
+                    Audit Trail
+                </span>
+
+            </div>
+
+
+            {% if activities %}
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Action
+                            </th>
+
+                            <th>
+                                File
+                            </th>
+
+                            <th>
+                                Details
+                            </th>
+
+                            <th>
+                                Date & Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for activity in activities %}
+
+                            <tr>
+
+                                <td>
+
+                                    {% if activity.action == "UPLOAD" %}
+
+                                        <span class="action upload">
+                                            UPLOAD
+                                        </span>
+
+                                    {% elif activity.action == "DOWNLOAD" %}
+
+                                        <span class="action download">
+                                            DOWNLOAD
+                                        </span>
+
+                                    {% elif activity.action == "SHARE" %}
+
+                                        <span class="action share">
+                                            SHARE
+                                        </span>
+
+                                    {% elif activity.action == "DELETE" %}
+
+                                        <span class="action delete">
+                                            DELETE
+                                        </span>
+
+                                    {% elif activity.action == "LOGIN" %}
+
+                                        <span class="action login">
+                                            LOGIN
+                                        </span>
+
+                                    {% elif activity.action == "LOGOUT" %}
+
+                                        <span class="action logout">
+                                            LOGOUT
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="action">
+                                            {{ activity.action }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if activity.file %}
+
+                                        🔐
+                                        {{ activity.file.filename }}
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ activity.details or "—" }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ activity.created_at.strftime(
+                                        "%Y-%m-%d %H:%M:%S"
+                                    ) }}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            {% else %}
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        No activity yet
+                    </h3>
+
+                    <p>
+                        Your file and account activities will appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
